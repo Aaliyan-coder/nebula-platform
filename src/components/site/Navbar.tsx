@@ -69,9 +69,19 @@ export function Navbar() {
               <a
                 key={l.href}
                 href={l.href}
-                className="px-3 py-1.5 text-sm text-muted-foreground hover:text-foreground rounded-md transition-colors"
+                className={cn(
+                  "relative px-3 py-1.5 text-sm rounded-md transition-colors",
+                  active === l.href ? "text-foreground" : "text-muted-foreground hover:text-foreground"
+                )}
               >
-                {l.label}
+                {active === l.href && (
+                  <motion.span
+                    layoutId="nav-active"
+                    className="absolute inset-0 rounded-md bg-muted/50"
+                    transition={{ type: "spring", stiffness: 380, damping: 30 }}
+                  />
+                )}
+                <span className="relative">{l.label}</span>
               </a>
             ))}
           </nav>
