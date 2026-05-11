@@ -15,12 +15,29 @@ const links = [
 export function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
+  const [active, setActive] = useState<string>("");
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 12);
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  useEffect(() => {
+    const ids = links.map((l) => l.href.slice(1));
+    const obs = new IntersectionObserver(
+      (entries) => {
+        const visible = entries.filter((e) => e.isIntersecting).sort((a, b) => b.intersectionRatio - a.intersectionRatio);
+        if (visible[0]) setActive("#" + visible[0].target.id);
+      },
+      { rootMargin: "-40% 0px -50% 0px", threshold: [0, 0.25, 0.5, 1] }
+    );
+    ids.forEach((id) => {
+      const el = document.getElementById(id);
+      if (el) obs.observe(el);
+    });
+    return () => obs.disconnect();
   }, []);
 
   return (
@@ -52,9 +69,19 @@ export function Navbar() {
               <a
                 key={l.href}
                 href={l.href}
-                className="px-3 py-1.5 text-sm text-muted-foreground hover:text-foreground rounded-md transition-colors"
+                className={cn(
+                  "relative px-3 py-1.5 text-sm rounded-md transition-colors",
+                  active === l.href ? "text-foreground" : "text-muted-foreground hover:text-foreground"
+                )}
               >
-                {l.label}
+                {active === l.href && (
+                  <motion.span
+                    layoutId="nav-active"
+                    className="absolute inset-0 rounded-md bg-muted/50"
+                    transition={{ type: "spring", stiffness: 380, damping: 30 }}
+                  />
+                )}
+                <span className="relative">{l.label}</span>
               </a>
             ))}
           </nav>
