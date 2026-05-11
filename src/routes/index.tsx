@@ -5,10 +5,12 @@ import { Hero } from "@/components/site/Hero";
 import { LogoCloud } from "@/components/site/LogoCloud";
 import { Features } from "@/components/site/Features";
 import { ProductDemo } from "@/components/site/ProductDemo";
+import { Integrations } from "@/components/site/Integrations";
 import { Testimonials } from "@/components/site/Testimonials";
 import { Pricing } from "@/components/site/Pricing";
 import { CTA } from "@/components/site/CTA";
 import { Footer } from "@/components/site/Footer";
+import { FloatingOrbs } from "@/components/site/FloatingOrbs";
 
 export const Route = createFileRoute("/")({
   head: () => ({
