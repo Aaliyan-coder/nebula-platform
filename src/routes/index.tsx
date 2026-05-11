@@ -33,6 +33,7 @@ export const Route = createFileRoute("/")({
 function Index() {
   return (
     <div className="relative min-h-screen overflow-x-hidden">
+      <FloatingOrbs />
       <ScrollProgress />
       <Navbar />
       <main>
@@ -40,6 +41,7 @@ function Index() {
         <LogoCloud />
         <Features />
         <ProductDemo />
+        <Integrations />
         <Testimonials />
         <Pricing />
         <CTA />
